@@ -22,7 +22,7 @@ NTSTATUS control(PDEVICE_OBJECT device_object, PIRP irp_call) {
 	static auto operation_status = STATUS_SUCCESS;
 
 	auto kernel_memory = [](const std::uintptr_t virtual_address) -> bool {
-		return virtual_address >= ((std::uintptr_t)1 << (8 * sizeof(std::uintptr_t) - 1));
+		return virtual_address >= (1 << (8 * sizeof(std::uintptr_t) - 1));
 	};
 
 	switch (stack->Parameters.DeviceIoControl.IoControlCode) {
