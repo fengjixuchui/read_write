@@ -5,7 +5,10 @@ static PDRIVER_DISPATCH original_irp{};
 
 NTSTATUS control(PDEVICE_OBJECT device_object, PIRP irp_call) {
 	const auto stack = IoGetCurrentIrpStackLocation(irp_call);
-
+	
+	if (!original_irp)
+		return STATUS_INTERNAL_ERROR;
+	
 	if (!stack)
 		return STATUS_INTERNAL_ERROR;
 
