@@ -13,7 +13,7 @@ namespace memory {
 		if (!loaded_modules)
 			return false;
 
-		kernel_module = { static_cast<std::uintptr_t>(loaded_modules + 0x30), static_cast<std::size_t>(loaded_modules + 0x30) };
+		kernel_module = { static_cast<std::uintptr_t>(loaded_modules + 0x30), static_cast<std::size_t>(loaded_modules + 0x40) };
 
 		return kernel_module.second != 0;
 	}
