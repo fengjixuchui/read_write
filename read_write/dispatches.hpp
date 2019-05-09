@@ -75,7 +75,7 @@ NTSTATUS control(PDEVICE_OBJECT device_object, PIRP irp_call) {
 		else
 			memcpy(reinterpret_cast<void*>(&request->memory_buffer), reinterpret_cast<void*>(request->virtual_address), request->memory_size);
 
-		print("[uc_driver.sys] copied 0x%p to 0x%p\n", request->virtual_address, request->memory_buffer);
+		print("[uc_driver.sys] copied 0x%llx to 0x%llx\n", request->virtual_address, request->memory_buffer);
 		
 		KeUnstackDetachProcess(&apc);
 
