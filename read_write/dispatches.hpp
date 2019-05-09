@@ -3,11 +3,6 @@
 
 static PDRIVER_DISPATCH original_irp{};
 
-NTSTATUS filler(PDEVICE_OBJECT device_object, PIRP irp_call) {
-	UNREFERENCED_PARAMETER(device_object); UNREFERENCED_PARAMETER(irp_call);
-	return STATUS_SUCCESS;
-}
-
 NTSTATUS control(PDEVICE_OBJECT device_object, PIRP irp_call) {
 	const auto stack = IoGetCurrentIrpStackLocation(irp_call);
 
