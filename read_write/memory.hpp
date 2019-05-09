@@ -8,12 +8,12 @@ namespace memory {
 	std::pair<std::uintptr_t, std::size_t> kernel_module;
 
 	bool init() {
-		auto loaded_modules = *reinterpret_cast<std::uintptr_t*>(win::PsLoadedModuleList);
+		auto loaded_modules = reinterpret_cast<std::uintptr_t>(win::PsLoadedModuleList);
 
 		if (!loaded_modules)
 			return false;
 
-		kernel_module = { static_cast<std::uintptr_t>(loaded_modules + 0x30), static_cast<std::size_t>(loaded_modules + 0x40) };
+		kernel_module = { *reinterpret_cast<std::uintptr_t*>(loaded_modules + 0x30), *reinterpret_cast<std::size_t*>(loaded_modules + 0x40) };
 
 		return kernel_module.second != 0;
 	}
