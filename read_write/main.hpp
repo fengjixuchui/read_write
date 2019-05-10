@@ -39,12 +39,12 @@ namespace clean {
 			return address + *reinterpret_cast<std::int32_t*>(address + 3) + 7;
 		};
 
-		auto PiDDBCacheTable = *reinterpret_cast<PRTL_AVL_TABLE*>(resolve_rip(memory::from_pattern("\x48\x8d\x0d\x00\x00\x00\x00\xe8\x00\x00\x00\x00\x3d\x00\x01\x00\x00", "xxx????x????xxxxx")));
+		auto PiDDBCacheTable = reinterpret_cast<PRTL_AVL_TABLE>(resolve_rip(memory::from_pattern("\x48\x8d\x0d\x00\x00\x00\x00\xe8\x00\x00\x00\x00\x3d\x00\x01\x00\x00", "xxx????x????xxxxx")));
 
 		if (!PiDDBCacheTable)
 			return false;
 		
-		auto PiDDBLock = *reinterpret_cast<PERESOURCE*>(resolve_rip(memory::from_pattern("\x48\x8d\x0d\x00\x00\x00\x00\x48\x83\x25\x00\x00\x00\x00\x00\xe8\x00\x00\x00\x00", "xxx????xxx?????x????")));
+		auto PiDDBLock = reinterpret_cast<PERESOURCE>(resolve_rip(memory::from_pattern("\x48\x8d\x0d\x00\x00\x00\x00\x48\x83\x25\x00\x00\x00\x00\x00\xe8\x00\x00\x00\x00", "xxx????xxx?????x????")));
 
 		if (!PiDDBLock)
 			return false;
