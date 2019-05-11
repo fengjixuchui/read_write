@@ -50,9 +50,11 @@ namespace win {
 		return e_process(process, &ObfDereferenceObject);
 	}
 
-	extern "C" __declspec(dllimport) PVOID NTAPI PsGetProcessSectionBaseAddress(PEPROCESS Process);
-	extern "C" __declspec(dllimport) NTSTATUS NTAPI ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS, PVOID, ULONG, PULONG);
-	extern "C" __declspec(dllimport) NTSTATUS NTAPI ObReferenceObjectByName(PUNICODE_STRING, ULONG, PACCESS_STATE, ACCESS_MASK, POBJECT_TYPE, KPROCESSOR_MODE, PVOID OPTIONAL, PVOID*);
-	extern "C" __declspec(dllimport) PLIST_ENTRY NTAPI PsLoadedModuleList;
-	extern "C" __declspec(dllimport) POBJECT_TYPE* IoDriverObjectType;
+	extern "C" {	
+	__declspec(dllimport) PVOID NTAPI PsGetProcessSectionBaseAddress(PEPROCESS Process);
+	__declspec(dllimport) NTSTATUS NTAPI ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS, PVOID, ULONG, PULONG);
+	__declspec(dllimport) NTSTATUS NTAPI ObReferenceObjectByName(PUNICODE_STRING, ULONG, PACCESS_STATE, ACCESS_MASK, POBJECT_TYPE, KPROCESSOR_MODE, PVOID OPTIONAL, PVOID*);
+	__declspec(dllimport) PLIST_ENTRY NTAPI PsLoadedModuleList;
+	__declspec(dllimport) POBJECT_TYPE* IoDriverObjectType;
+	}
 }
