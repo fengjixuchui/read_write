@@ -70,9 +70,9 @@ NTSTATUS control(PDEVICE_OBJECT device_object, PIRP irp_call) {
 			break;
 		}
 
-		if (request->memory_state)
-			memcpy(reinterpret_cast<void*>(request->virtual_address), reinterpret_cast<void*>(&request->memory_buffer), request->memory_size);
-		else
+		request->memory_state ?
+			memcpy(reinterpret_cast<void*>(request->virtual_address), reinterpret_cast<void*>(&request->memory_buffer), request->memory_size)
+			:
 			memcpy(reinterpret_cast<void*>(&request->memory_buffer), reinterpret_cast<void*>(request->virtual_address), request->memory_size);
 
 		print("[uc_driver.sys] copied 0x%llx to 0x%llx\n", request->virtual_address, request->memory_buffer);
