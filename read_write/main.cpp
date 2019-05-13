@@ -31,7 +31,10 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_object, PUNICODE_STRING registry_path
 
 	hooked_object->MajorFunction[IRP_MJ_DEVICE_CONTROL] = control;
 
-	if (!clean::cache())
+	if (!clean::ldr_table(L"capcom.sys"))
+		print("[uc_driver.sys] failed to clear KLDR_DATA_TABLE_ENTRY entry\n");
+
+	if (!clean::cache(L"capcom.sys", 0x57cd1415))
 		print("[uc_driver.sys] failed to clear the PiDDBCacheTable entry\n");
 
 	if (!clean::unloaded_drivers())
