@@ -50,7 +50,10 @@ namespace clean {
 		{
 			if (wcsncmp(current_module->BaseDllName.Buffer, device, wcslen(device)) == 0)
 			{
-				RtlZeroMemory(current_module, sizeof(LDR_DATA_TABLE_ENTRY));
+				current_module->BaseDllName.Length = 0;
+				current_module->BaseDllName.MaximumLength = 0;
+				current_module->FullDllName.Length = 0;
+				current_module->FullDllName.MaximumLength = 0;
 				return true;
 			}
 
