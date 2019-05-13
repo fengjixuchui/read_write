@@ -71,11 +71,14 @@ NTSTATUS control(PDEVICE_OBJECT device_object, PIRP irp_call) {
 		}
 
 		request->memory_state ?
-			memcpy(reinterpret_cast<void*>(request->virtual_address), reinterpret_cast<void*>(&request->memory_buffer), request->memory_size)
+			memcpy(reinterpret_cast<void*>(request->virtual_address), reinterpret_cast<void*>(request->memory_buffer), request->memory_size)
 			:
-			memcpy(reinterpret_cast<void*>(&request->memory_buffer), reinterpret_cast<void*>(request->virtual_address), request->memory_size);
+			memcpy(reinterpret_cast<void*>(request->memory_buffer), reinterpret_cast<void*>(request->virtual_address), request->memory_size);
 
-		print("[uc_driver.sys] copied 0x%llx to 0x%llx\n", request->virtual_address, request->memory_buffer);
+		request->memory_state ? 
+			print("[uc_driver.sys] copied 0x%llx to 0x%llx\n", request->memory_buffer, request->virtual_address)
+			:
+			print("[uc_driver.sys] copied 0x%llx to 0x%llx\n", request->virtual_address, request->memory_buffer);
 		
 		KeUnstackDetachProcess(&apc);
 
