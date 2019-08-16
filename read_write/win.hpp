@@ -29,29 +29,9 @@ typedef struct _LDR_DATA_TABLE_ENTRY
 	ULONG SizeOfImage;
 	UNICODE_STRING FullDllName;
 	UNICODE_STRING BaseDllName;
-	ULONG Flags;
-	std::uint16_t LoadCount;
-	std::uint16_t TlsIndex;
-	union
-	{
-		LIST_ENTRY HashLinks;
-		struct
-		{
-			PVOID SectionPointer;
-			ULONG CheckSum;
-		};
-	};
-	union
-	{
-		ULONG TimeDateStamp;
-		PVOID LoadedImports;
-	};
-	_ACTIVATION_CONTEXT* EntryPointActivationContext;
-	PVOID PatchInformation;
-	LIST_ENTRY ForwarderLinks;
-	LIST_ENTRY ServiceTagLinks;
-	LIST_ENTRY StaticLinks;
+	// ...
 } LDR_DATA_TABLE_ENTRY, * PLDR_DATA_TABLE_ENTRY;
+
 
 typedef struct _RTL_PROCESS_MODULE_INFORMATION
 {
