@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
 #include <ntifs.h>
-#include "activation_context.hpp"
 
 enum SYSTEM_INFORMATION_CLASS : std::uint32_t
 {
