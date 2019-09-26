@@ -41,6 +41,8 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_object, PUNICODE_STRING registry_path
 		print("[uc_driver.sys] failed to clear the MmUnloadedDrivers list\n");
 
 	print("[uc_driver.sys] done cleaning module traces!\n");
-
+	
+	ObfDereferenceObject(hooked_object);
+	
 	return STATUS_SUCCESS;
 }
