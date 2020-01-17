@@ -37,9 +37,6 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver_object, PUNICODE_STRING registry_path
 	if (!clean::cache(L"capcom.sys", 0x57cd1415))
 		print("[uc_driver.sys] failed to clear the PiDDBCacheTable entry\n");
 
-	if (!clean::unloaded_drivers())
-		print("[uc_driver.sys] failed to clear the MmUnloadedDrivers list\n");
-
 	print("[uc_driver.sys] done cleaning module traces!\n");
 	
 	ObfDereferenceObject(hooked_object);
