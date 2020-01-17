@@ -5,32 +5,6 @@
 #define print(text, ...) DbgPrintEx(77, 0, text, ##__VA_ARGS__)
 
 namespace clean {
-	bool unloaded_drivers() {
-		auto current_instruction = memory::from_pattern("\x4C\x8B\x00\x00\x00\x00\x00\x4C\x8B\xC9\x4D\x85\x00\x74", "xx?????xxxxx?x");
-
-		if (!current_instruction)
-			return false;
-
-		auto MmUnloadedDrivers = current_instruction + *reinterpret_cast<std::int32_t*>(current_instruction + 3) + 7;
-
-		if (!MmUnloadedDrivers)
-			return false;
-		
-		print("[uc_driver.sys] found MmUnloadedDrivers at 0x%llx\n", MmUnloadedDrivers);
-
-		auto empty_buffer = ExAllocatePoolWithTag(NonPagedPool, 0x7d0, 'dick');
-
-		if (!empty_buffer)
-			return false;
-
-		memset(empty_buffer, 0, 0x7d0);
-
-		*reinterpret_cast<std::uintptr_t*>(MmUnloadedDrivers) = reinterpret_cast<std::uintptr_t>(empty_buffer);
-
-		ExFreePoolWithTag(*reinterpret_cast<void**>(MmUnloadedDrivers), 'dick');
-
-		return true;
-	}
 	bool ldr_table(const wchar_t* device) {
 		UNICODE_STRING driver_name = RTL_CONSTANT_STRING(L"\\Driver\\Disk");
 		PDRIVER_OBJECT driver_object = nullptr;
@@ -50,10 +24,7 @@ namespace clean {
 		{
 			if (wcsncmp(current_module->BaseDllName.Buffer, device, wcslen(device)) == 0)
 			{
-				current_module->BaseDllName.Length = 0;
 				current_module->BaseDllName.MaximumLength = 0;
-				current_module->FullDllName.Length = 0;
-				current_module->FullDllName.MaximumLength = 0;
 				return true;
 			}
 
