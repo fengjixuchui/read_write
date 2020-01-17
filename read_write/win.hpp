@@ -18,6 +18,40 @@ enum SYSTEM_INFORMATION_CLASS : std::uint32_t
 	SystemModuleInformation,
 };
 
+typedef struct _LDR_DATA_TABLE_ENTRY
+{
+	LIST_ENTRY InLoadOrderLinks;
+	LIST_ENTRY InMemoryOrderLinks;
+	LIST_ENTRY InInitializationOrderLinks;
+	PVOID DllBase;
+	PVOID EntryPoint;
+	ULONG SizeOfImage;
+	UNICODE_STRING FullDllName;
+	UNICODE_STRING BaseDllName;
+	// ...
+} LDR_DATA_TABLE_ENTRY, * PLDR_DATA_TABLE_ENTRY;
+
+
+typedef struct _RTL_PROCESS_MODULE_INFORMATION
+{
+	HANDLE Section;
+	PVOID MappedBase;
+	PVOID ImageBase;
+	ULONG ImageSize;
+	ULONG Flags;
+	USHORT LoadOrderIndex;
+	USHORT InitOrderIndex;
+	USHORT LoadCount;
+	USHORT OffsetToFileName;
+	UCHAR  FullPathName[256];
+} RTL_PROCESS_MODULE_INFORMATION, * PRTL_PROCESS_MODULE_INFORMATION;
+
+typedef struct _RTL_PROCESS_MODULES
+{
+	ULONG NumberOfModules;
+	RTL_PROCESS_MODULE_INFORMATION Modules[1];
+} RTL_PROCESS_MODULES, * PRTL_PROCESS_MODULES;
+
 struct PiDDBCacheEntry
 {
 	LIST_ENTRY		List;
@@ -50,11 +84,9 @@ namespace win {
 		return e_process(process, &ObfDereferenceObject);
 	}
 
-	extern "C" {	
-	__declspec(dllimport) PVOID NTAPI PsGetProcessSectionBaseAddress(PEPROCESS Process);
-	__declspec(dllimport) NTSTATUS NTAPI ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS, PVOID, ULONG, PULONG);
-	__declspec(dllimport) NTSTATUS NTAPI ObReferenceObjectByName(PUNICODE_STRING, ULONG, PACCESS_STATE, ACCESS_MASK, POBJECT_TYPE, KPROCESSOR_MODE, PVOID OPTIONAL, PVOID*);
-	__declspec(dllimport) PLIST_ENTRY NTAPI PsLoadedModuleList;
-	__declspec(dllimport) POBJECT_TYPE* IoDriverObjectType;
-	}
+	extern "C" __declspec(dllimport) PVOID NTAPI PsGetProcessSectionBaseAddress(PEPROCESS Process);
+	extern "C" __declspec(dllimport) NTSTATUS NTAPI ZwQuerySystemInformation(SYSTEM_INFORMATION_CLASS, PVOID, ULONG, PULONG);
+	extern "C" __declspec(dllimport) NTSTATUS NTAPI ObReferenceObjectByName(PUNICODE_STRING, ULONG, PACCESS_STATE, ACCESS_MASK, POBJECT_TYPE, KPROCESSOR_MODE, PVOID OPTIONAL, PVOID*);
+	extern "C" __declspec(dllimport) PLIST_ENTRY NTAPI PsLoadedModuleList;
+	extern "C" __declspec(dllimport) POBJECT_TYPE* IoDriverObjectType;
 }
